@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RedactionInfo Begin="133301957378316257" End="133301959018321798" GuidName="7b5a53c2-1ab6-420f-a25b-9055ed55be61" Operations="1" MachineName="DESKTOP-Q5UB6R4" UserName="igor_" SonicaUserName="igor_" ShellVersion="7.89.18-HEAD+6df6fcca1" CoreVersion="789">
+  <MainComment></MainComment>
+  <Changes>
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Добавление &quot;&gt;:\Logic:\ModbusSlaveTCP&quot;" TimeXName="02.06.2023 07:11:09" />
+  </Changes>
+</RedactionInfo>

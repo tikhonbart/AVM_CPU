@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RedactionInfo Begin="133304443375674806" End="133304443598655357" GuidName="a472c05e-8501-4a39-911e-7990b69028ef" Operations="1" MachineName="DESKTOP-Q5UB6R4" UserName="igor_" SonicaUserName="igor_" ShellVersion="7.89.18-HEAD+6df6fcca1" CoreVersion="789">
+  <MainComment></MainComment>
+  <Changes>
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Добавление &quot;&gt;:\Logic:\ModbusikMasterTCP&quot;" TimeXName="05.06.2023 04:12:33" />
+  </Changes>
+</RedactionInfo>

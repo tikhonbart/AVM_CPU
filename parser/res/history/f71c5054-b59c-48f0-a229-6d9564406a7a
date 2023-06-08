@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RedactionInfo Begin="133295808582766801" End="133295808994752841" GuidName="f71c5054-b59c-48f0-a229-6d9564406a7a" Operations="1" MachineName="VIRTUAL-10X64-1" UserName="anton" SonicaUserName="anton" ShellVersion="7.88.23-undefined+6dfbe9a12" CoreVersion="788">
+  <MainComment></MainComment>
+  <Changes>
+    <SActionXName NameXName="developer" RoleXName="Developer" DescriptionXName="Remove &quot;&gt;:\Screen&quot;" TimeXName="26.05.2023 04:21:06" />
+  </Changes>
+</RedactionInfo>

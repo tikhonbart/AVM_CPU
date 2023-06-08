@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RedactionInfo Begin="133295804275280651" End="133295807102749373" GuidName="3444389a-5646-4a15-aaf6-ce84d3247d5b" Operations="3" MachineName="VIRTUAL-10X64-1" UserName="anton" SonicaUserName="anton" ShellVersion="7.88.23-undefined+6dfbe9a12" CoreVersion="788">
+  <MainComment>dtc_for_students
+</MainComment>
+  <Changes>
+    <SActionXName NameXName="developer" RoleXName="Developer" DescriptionXName="add &quot;&gt;:\Gate#2&quot;" TimeXName="26.05.2023 04:15:50" />
+    <SActionXName NameXName="developer" RoleXName="Developer" DescriptionXName="ConfigurateGate &gt;:\Gate104" TimeXName="26.05.2023 04:17:10" />
+    <SActionXName NameXName="developer" RoleXName="Developer" DescriptionXName="add &quot;&gt;:\Router&quot;" TimeXName="26.05.2023 04:17:19" />
+  </Changes>
+</RedactionInfo>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RedactionInfo Begin="133304438045826233" End="133304439309885669" GuidName="ae8e60e6-ee42-43e0-addf-9b289d8399cb" Operations="5" MachineName="DESKTOP-Q5UB6R4" UserName="igor_" SonicaUserName="igor_" ShellVersion="7.89.18-HEAD+6df6fcca1" CoreVersion="789">
+  <MainComment></MainComment>
+  <Changes>
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Добавление &quot;&gt;:\Logic:\ModbusSlaveRTU&quot;" TimeXName="05.06.2023 04:03:39" />
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Добавление &quot;&gt;:\Logic:\IEC-60870-5-104-Slave&quot;" TimeXName="05.06.2023 04:03:46" />
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Добавление &quot;&gt;:\Logic:\ModbusikMasterRTU&quot;" TimeXName="05.06.2023 04:04:48" />
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Добавление &quot;&gt;:\Logic:\ModbusikMasterRTU#2&quot;" TimeXName="05.06.2023 04:04:56" />
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Удаление &quot;&gt;:\Logic:\IEC-60870-5-104-Slave&quot;" TimeXName="05.06.2023 04:05:26" />
+  </Changes>
+</RedactionInfo>

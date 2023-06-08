@@ -1,0 +1,204 @@
+{
+    "ModbusikMasterTCP": [
+        {
+            "ModbusikMasterTCP": {
+                "Ip": "127.0.0.1",
+                "Port": "502",
+                "Read timeout": "500",
+                "Pause": "0",
+                "Station Address": "1",
+                "Read registers": null,
+                "Write registers": null,
+                "Reconnect": "30",
+                "NumberOfReconnections": "0",
+                "Allowed errors": "1",
+                "Endpoints": null,
+                "LogLevel": "Info",
+                "Autorun": "true"
+            }
+        }
+    ],
+    "ModbusSlaveRTU": [
+        {
+            "ModbusSlaveRTU": {
+                "Port": "COM1",
+                "Address": "0",
+                "Speed": "s19200",
+                "Parity": "None",
+                "Stop bits": "One",
+                "Data bits": "Eight",
+                "Registers type": "HR",
+                "Count": "10",
+                "Registers": null,
+                "Number of reconnections": "3",
+                "Write messages in log": "false",
+                "Autorun": "true"
+            }
+        }
+    ],
+    "ModbusSlaveTCP": [
+        {
+            "ModbusSlaveTCP": {
+                "IP": "any",
+                "Port": "502",
+                "Registers": null,
+                "Clients Count": "5",
+                "Device Address": "3",
+                "Autorun": "true"
+            }
+        }
+    ],
+    "ModbusikMasterRTU": [
+        {
+            "Gate": {
+                "Port": "/dev/ttyS1",
+                "Speed": "s4800",
+                "Parity": "None",
+                "Stop bits": "One",
+                "Data bits": "Eight",
+                "Number of retries": "0",
+                "Read timeout": "500",
+                "Pause": "0",
+                "Station Address": "1",
+                "Registers Type": "ReadHoldingRegisters",
+                "Start": "0",
+                "Data Type": "Int16",
+                "Count": "2",
+                "Bytes Order": "bBwB",
+                "Period": "5000",
+                "Filter": "true",
+                "Name": "",
+                "Composition": "Single",
+                "Control": "No",
+                "Read registers": null,
+                "Write registers": null,
+                "Reconnect": "30",
+                "Allowed errors": "1",
+                "LogLevel": "Trace",
+                "Autorun": "true"
+            }
+        },
+        {
+            "ModbusikMasterRTU": {
+                "Port": "COM1",
+                "Speed": "s19200",
+                "Parity": "None",
+                "Stop bits": "One",
+                "Data bits": "Eight",
+                "Number of retries": "0",
+                "Read timeout": "500",
+                "Pause": "0",
+                "Station Address": "1",
+                "Read registers": null,
+                "Write registers": null,
+                "Reconnect": "30",
+                "Allowed errors": "1",
+                "LogLevel": "Info",
+                "Autorun": "true"
+            }
+        },
+        {
+            "ModbusikMasterRTU#2": {
+                "Port": "COM1",
+                "Speed": "s19200",
+                "Parity": "None",
+                "Stop bits": "One",
+                "Data bits": "Eight",
+                "Number of retries": "0",
+                "Read timeout": "500",
+                "Pause": "0",
+                "Station Address": "1",
+                "Read registers": null,
+                "Write registers": null,
+                "Reconnect": "30",
+                "Allowed errors": "1",
+                "LogLevel": "Info",
+                "Autorun": "true"
+            }
+        }
+    ],
+    "IEC-60870-5-104-Slave": [
+        {
+            "Gate104": {
+                "Port": "2404",
+                "Name": "Out",
+                "Description": "Out Data",
+                "ASDU": "208",
+                "Address": "130",
+                "Count": "2",
+                "Type": "M_ME_NC_1",
+                "Groups": "General",
+                "Cause of transmission": "NotUsed",
+                "Data": null,
+                "Command": null,
+                "Files": null,
+                "AnswerTimeout": "15",
+                "InfoTimeout": "10",
+                "Downtime": "20",
+                "W": "8",
+                "K": "12",
+                "MaxConnectionCount": "5",
+                "QueueSize": "1000",
+                "Filter": "None",
+                "LogLevel": "Info",
+                "Autorun": "true"
+            }
+        },
+        {
+            "IEC-60870-5-104-Slave": {
+                "Port": "24",
+                "Name": "T64",
+                "ASDU": "3",
+                "Address": "37",
+                "Count": "1",
+                "Type": "C_BO_TA_1",
+                "Groups": "General",
+                "Cause of transmission": "Sporadic",
+                "Data": null,
+                "IOA": "64",
+                "Range": "1",
+                "Type send": "DirectValue",
+                "Command": null,
+                "Files": null,
+                "AnswerTimeout": "15",
+                "InfoTimeout": "10",
+                "Downtime": "20",
+                "W": "8",
+                "K": "12",
+                "MaxConnectionCount": "5",
+                "QueueSize": "1000",
+                "Filter": "None",
+                "LogLevel": "Info",
+                "Autorun": "true"
+            }
+        }
+    ],
+    "IEC-60870-5-104-Master-#2": [
+        {
+            "IEC-60870-5-104-Master-#2": {
+                "IP": "127.0.0.1",
+                "Port": "2404",
+                "Data": null,
+                "Command": null,
+                "Interrogation periods": null,
+                "Files": null,
+                "Endpoints": null,
+                "Reconnect": "30",
+                "T1": "15",
+                "T2": "10",
+                "T3": "20",
+                "W": "8",
+                "K": "12",
+                "TimeSync": "false",
+                "TimeSyncFormat": "UTC",
+                "TimeShift": "0",
+                "Filter": "Full",
+                "NumberOfReconnections": "1",
+                "SplitIntoParts": "true",
+                "LogLevel": "Info",
+                "Autorun": "true"
+            }
+        }
+    ],
+    "IEC-60870-5-104-Master": []
+}

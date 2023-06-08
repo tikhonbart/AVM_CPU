@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RedactionInfo Begin="133306136689684856" End="133306137865133018" GuidName="04f34e4b-404d-4e7e-bac6-aad60861f933" Operations="2" MachineName="DESKTOP-Q5UB6R4" UserName="igor_" SonicaUserName="igor_" ShellVersion="7.89.18-HEAD+6df6fcca1" CoreVersion="789">
+  <MainComment></MainComment>
+  <Changes>
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Добавление &quot;&gt;:\Logic:\IEC-60870-5-104-Slave&quot;" TimeXName="07.06.2023 03:15:06" />
+    <SActionXName NameXName="igor_" RoleXName="dev" DescriptionXName="Добавление &quot;&gt;:\Logic:\IEC-60870-5-104-Master-#2&quot;" TimeXName="07.06.2023 03:15:32" />
+  </Changes>
+</RedactionInfo>
