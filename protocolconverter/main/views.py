@@ -6,6 +6,9 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 
+#метод для обработки запросов
+def write_into_db(request):
+    pass
 
 # обработка неправильной адресации
 def pageNotFound(request, exception):
