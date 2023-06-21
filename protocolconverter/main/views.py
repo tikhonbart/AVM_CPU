@@ -113,22 +113,19 @@ def viewBlocks(request):
         # Обработка, если значение mypath не найдено
         pass
     else:
-        objects_massive = [IEC_60870_5_104_Master.objects.all(), ModbusSlaveTCP.objects.all()]
         #objects_massive.append(IEC_60870_5_104_Master.objects.all())
 
         IEC_Master = IEC_60870_5_104_Master.objects.all()
 
-        for i in objects_massive:
-            print(i)
-            if request.method == "POST":
-                form = ModbusSlaveTCP_Form(request.POST, instance=i[0])
-                try:
-                    form.save()
-                    #return redirect("blockview")
-                except:
-                    form.add_error(None, 'ошибка сохранения')
-            else:
-                form = ModbusSlaveTCP_Form(instance=i[0])
+        if request.method == "POST":
+            form = IEC_Master_Form(request.POST, instance=IEC_Master[0])
+            try:
+                form.save()
+                return redirect("blockview")
+            except:
+                form.add_error(None, 'ошибка сохранения')
+        else:
+            form = IEC_Master_Form(instance=IEC_Master[0])
 
         context = {
             "list": listInfo,

@@ -63,7 +63,7 @@
         {% csrf_token %}
 
         {% for object in form %}
-            <p><label class="form-label" for ="{{ object.IP.id_for_label }}"> {{object.label}}: </label> {{ object }} </p>
+            <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
         {% endfor %}
 
         <!--{{ IEC_edit.as_p }}-->
