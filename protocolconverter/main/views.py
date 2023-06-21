@@ -1,10 +1,16 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from main.forms import *
 import xml.etree.ElementTree as ET
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from .models import *
+
+
+# метод для обработки запросов
+def write_into_db(request):
+    pass
 
 
 # обработка неправильной адресации
@@ -61,6 +67,8 @@ def read_GACSECTOR(root, result):
 
 
 '''Функция считывающая XML файл'''
+
+
 def read_xml(path):
     result = {}
     try:
@@ -105,5 +113,26 @@ def viewBlocks(request):
         # Обработка, если значение mypath не найдено
         pass
     else:
+        objects_massive = [IEC_60870_5_104_Master.objects.all(), ModbusSlaveTCP.objects.all()]
+        #objects_massive.append(IEC_60870_5_104_Master.objects.all())
+
+        IEC_Master = IEC_60870_5_104_Master.objects.all()
+
+        for i in objects_massive:
+            print(i)
+            if request.method == "POST":
+                form = ModbusSlaveTCP_Form(request.POST, instance=i[0])
+                try:
+                    form.save()
+                    #return redirect("blockview")
+                except:
+                    form.add_error(None, 'ошибка сохранения')
+            else:
+                form = ModbusSlaveTCP_Form(instance=i[0])
+
+        context = {
+            "list": listInfo,
+            "form": form
+        }
         # список информации о блоках
-        return render(request, "main/mainpage.html", {"list": listInfo})
+        return render(request, "main/mainpage.html", context)
