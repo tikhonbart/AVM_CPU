@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {% for object in objects %}
+        <tr class='success'>
+            <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+        </tr>
+    {% endfor %}
+
+        {% for form_1 in form1 %}
+            <td>Объект<br></td>
+            {% for object in form_1 %}
+                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+            {% endfor %}
+            <td>.<br></td>
+        {% endfor %}
+
+        {% for form_2 in form2 %}
+            <td>Объект<br></td>
+            {% for object in form_2 %}
+                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+            {% endfor %}
+            <td>.<br></td>
+        {% endfor %}
+
+        {% for form_3 in form3 %}
+            <td>Объект<br></td>
+            {% for object in form_3 %}
+                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+            {% endfor %}
+            <td>.<br></td>
+        {% endfor %}
+
+        {% for form_4 in form4 %}
+            <td>Объект<br></td>
+            {% for object in form_4 %}
+                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+            {% endfor %}
+            <td>.<br></td>
+        {% endfor %}
+
+        {% for form_5 in form5 %}
+            <td>Объект<br></td>
+            {% for object in form_5 %}
+                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+            {% endfor %}
+            <td>.<br></td>
+        {% endfor %}
+
+        {% for form_6 in form6 %}
+            <td>Объект<br></td>
+            {% for object in form_6 %}
+                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+            {% endfor %}
+            <td>.<br></td>
+        {% endfor %}
+
+</body>
+</html>

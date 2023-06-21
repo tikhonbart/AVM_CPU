@@ -1,8 +1,6 @@
 import zipfile
 import shutil
 import xml.etree.ElementTree as ET
-import pyon
-import pyonr
 import json
 
 '''Константы'''
@@ -35,7 +33,9 @@ def read_GACSECTOR(root, result):
                                                 #print(group7.attrib)
                                                 gr5[group7.get('name')] = group7.get('val')
 
-                                    gr5[group5.get('name')] = group5.get('val')
+                                    cut = group5.get('name')
+                                    cut = cut.replace(" ","_")
+                                    gr5[cut] = group5.get('val')
                                     result1 = {}
                                     result1[group4.attrib['tag']] = gr5
                                     #print(result1)
@@ -60,7 +60,9 @@ def read_GACSECTOR(root, result):
                                                 #print(group7.attrib)
                                                 gr5[group7.get('name')] = group7.get('val')
 
-                                    gr5[group5.get('name')] = group5.get('val')
+                                    cut = group5.get('name')
+                                    cut = cut.replace(" ","_")
+                                    gr5[cut] = group5.get('val')
                                     result1 = {}
                                     result1[group4.attrib['tag']] = gr5
                                     #print(result1)
