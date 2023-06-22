@@ -1,75 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <title>block Info</title>
+        <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet" />
     </head>
-    <style>
-        .vertical-table {
-        display: flex;
-        flex-direction: row;
-      }
-      .vertical-table > div {
-        display: flex;
-        flex-direction: column;
-        margin-right: 10px;
-      }
-        table {
-        border-collapse: collapse;
-        display: flex;
-        flex-direction: row;
-      }
-        th, td {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid black;
-        padding: 8px;
-      }
-        li {
-        list-style-type: none; /* Убираем маркеры */
-      }
-        ul {
-        padding-left: 0; /* Сдвигаем список влево */
-      }
-    </style>
+
     <body>
-    <!--
-    <ul>
-        {% for m in IEC_Master %}
-        <li>
-            <h2>{{ m }}</h2>
-            <p>{{ m.IP.name }}</p>
-            <p>{{ m.Port }}</p>
-            <p>{{ m.Reconnect }}</p>
-            <p>{{ m.T1 }}</p>
-            <p>{{ m.T2 }}</p>
-            <p>{{ m.T3 }}</p>
-            <p>{{ m.W }}</p>
-            <p>{{ m.K }}</p>
-            <p>{{ m.TimeSync }}</p>
-            <p>{{ m.TimeSyncFormat }}</p>
-            <p>{{ m.TimeShift }}</p>
-            <p>{{ m.Filter }}</p>
-            <p>{{ m.NumberOfReconnections }}</p>
-            <p>{{ m.SplitIntoParts }}</p>
-            <p>{{ m.LogLevel }}</p>
-            <p>{{ m.Autorun }}</p>
-        </li>
-        {% endfor %}
-    </ul>
-    -->
 
-    <form action="{% url 'blockview' %}" method = "post">
-        {% csrf_token %}
+    <div class="sidebar">
+        <ul>
+            <li><a href="/main">другой файл</a></li>
+            <li>--------------------------</li>
+            {% for item in object_list %}
+                <li><a href="/main/controllerInfo/{{ item }}">{{ item }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 
-        {% for object in form %}
-            <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
-        {% endfor %}
+    <div class="content">
+        <form action="{% url 'blockview' %}" method = "post">
+            {% csrf_token %}
 
-        <!--{{ IEC_edit.as_p }}-->
-        <button type="submit">Сохранить в gack</button>
-    </form>
 
+            {% for object in form %}
+                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+            {% endfor %}
+
+            <!--{{ IEC_edit.as_p }}-->
+            <button type="submit">Сохранить в gack</button>
+        </form>
+    </div>
 
     </body>
 </html>

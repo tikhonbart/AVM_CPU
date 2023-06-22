@@ -9,6 +9,9 @@ class ModbusSlaveTCP(models.Model):
     Device_Address = models.IntegerField()
     Autorun = models.BooleanField()
 
+    def __str__(self):
+        return "ModbusSlaveTCP"
+
 
 class ModbusikMasterTCP(models.Model):
     IP = models.CharField(max_length=15)
@@ -22,6 +25,9 @@ class ModbusikMasterTCP(models.Model):
     LogLevel = models.IntegerField()
     Autorun = models.BooleanField()
 
+    def __str__(self):
+        return "ModbusikMasterTCP"
+
 
 class ModbusSlaveRTU(models.Model):
     Port = models.CharField(max_length=255)
@@ -34,6 +40,9 @@ class ModbusSlaveRTU(models.Model):
     Number_of_reconnections = models.IntegerField()
     Write_messages_in_log = models.BooleanField()
     Autorun = models.BooleanField()
+
+    def __str__(self):
+        return "ModbusSlaveRTU"
 
 
 class ModbusikMasterRTU(models.Model):
@@ -50,6 +59,9 @@ class ModbusikMasterRTU(models.Model):
     Allowed_errors = models.IntegerField()
     LogLevel = models.CharField(max_length=255)
     Autorun = models.BooleanField()
+
+    def __str__(self):
+        return "ModbusikMasterRTU"
 
 
 class IEC_60870_5_104_Slave(models.Model):
@@ -75,6 +87,9 @@ class IEC_60870_5_104_Slave(models.Model):
     LogLevel = models.CharField(max_length=255)
     Autorun = models.BooleanField()
 
+    def __str__(self):
+        return "IEC_60870_5_104_Slave"
+
 
 class IEC_60870_5_104_Master(models.Model):
     IP = models.CharField(max_length=15)
@@ -93,4 +108,7 @@ class IEC_60870_5_104_Master(models.Model):
     SplitIntoParts = models.BooleanField(verbose_name="SplitIntoParts")
     LogLevel = models.CharField(max_length=255, verbose_name="LogLevel")
     Autorun = models.BooleanField(verbose_name="Autorun")
+
+    def __str__(self):
+        return "IEC_60870_5_104_Master"
 

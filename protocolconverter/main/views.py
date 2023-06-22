@@ -113,23 +113,54 @@ def viewBlocks(request):
         # Обработка, если значение mypath не найдено
         pass
     else:
-        #objects_massive.append(IEC_60870_5_104_Master.objects.all())
+        object_list = [ModbusSlaveTCP.objects.first(), ModbusikMasterTCP.objects.first(),
+                       ModbusSlaveRTU.objects.first(), ModbusikMasterRTU.objects.first(),
+                       IEC_60870_5_104_Slave.objects.first(), IEC_60870_5_104_Master.objects.first()]
 
-        IEC_Master = IEC_60870_5_104_Master.objects.all()
+        object_list = [x for x in object_list if x is not None]
+
+        context = {
+            "list": listInfo,
+            "object_list": object_list
+        }
+        # список информации о блоках
+        return render(request, "main/mainpage.html", context)
+
+
+def edit_my_model(request, nameModel):
+    object_list = [ModbusSlaveTCP.objects.first(), ModbusikMasterTCP.objects.first(),
+                   ModbusSlaveRTU.objects.first(), ModbusikMasterRTU.objects.first(),
+                   IEC_60870_5_104_Slave.objects.first(), IEC_60870_5_104_Master.objects.first()]
+
+    object_list = [x for x in object_list if x is not None]
+
+    model_form_mapping = {
+        "IEC_60870_5_104_Master": (IEC_Master_Form, IEC_60870_5_104_Master),
+        "IEC_60870_5_104_Slave": (IEC_Slave_Form, IEC_60870_5_104_Slave),
+        "ModbusikMasterRTU": (ModbusikMasterRTU_Form, ModbusikMasterRTU),
+        "ModbusSlaveRTU": (ModbusSlaveRTU_Form, ModbusSlaveRTU),
+        "ModbusikMasterTCP": (ModbusikMasterTCP_Form, ModbusikMasterTCP),
+        "ModbusSlaveTCP": (ModbusSlaveTCP_Form, ModbusSlaveTCP),
+    }
+
+    if nameModel in model_form_mapping:
+        form_class, model_class = model_form_mapping[nameModel]
+        current_model = model_class.objects.first()
 
         if request.method == "POST":
-            form = IEC_Master_Form(request.POST, instance=IEC_Master[0])
+            form = form_class(request.POST, instance=current_model)
             try:
                 form.save()
                 return redirect("blockview")
             except:
                 form.add_error(None, 'ошибка сохранения')
         else:
-            form = IEC_Master_Form(instance=IEC_Master[0])
+            form = form_class(instance=current_model)
+    else:
+        form = None
 
-        context = {
-            "list": listInfo,
-            "form": form
-        }
-        # список информации о блоках
-        return render(request, "main/mainpage.html", context)
+    context = {
+        "form": form,
+        "object_list": object_list
+    }
+    return render(request, 'main/mainpage.html', context)
