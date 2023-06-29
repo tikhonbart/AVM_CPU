@@ -14,6 +14,9 @@ urlpatterns = [
     path('get/ModbusSlaveTCP', ModbusSlaveTCP_View.as_view(), name='getModbusSlaveTCP'),
     path('get/ModbusSlaveRTU', ModbusSlaveRTU_View.as_view(), name='getModbusSlaveRTU'),
 
+    path('get/db', get_data_from_database, name='getDB'),
+
+
 
     path('post/ModbusSlaveRTU', insert_ModbusSlaveRTU, name='postModbusSlaveRTU'),
     path('post/IEC_60870_5_104_Master', insert_IEC_60870_5_104_Master, name='postIECm'), #+
@@ -29,4 +32,6 @@ urlpatterns = [
     path('delete/ModbusikMasterTCP', delete_ModbusikMasterTCP, name='deleteModbusikMasterTCP'),
     path('delete/IEC_60870_5_104_Master', delete_IEC_60870_5_104_Master, name='deleteIECm'),
     path('delete/IEC_60870_5_104_Slave', delete_IEC_60870_5_104_Slave, name='deleteIECs')
+
+    #path('test', write_GACSECTOR, name="test")
 ]

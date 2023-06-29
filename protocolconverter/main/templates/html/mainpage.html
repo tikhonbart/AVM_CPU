@@ -65,7 +65,9 @@
         {% for form_1 in form1 %}
             <td>Объект<br></td>
             {% for object in form_1 %}
-                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% if object.label not in Ignore %}
+                    <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% endif %}
             {% endfor %}
             <td>.<br></td>
         {% endfor %}
@@ -73,7 +75,9 @@
         {% for form_2 in form2 %}
             <td>Объект<br></td>
             {% for object in form_2 %}
-                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% if object.label not in Ignore %}
+                    <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% endif %}
             {% endfor %}
             <td>.<br></td>
         {% endfor %}
@@ -81,7 +85,9 @@
         {% for form_3 in form3 %}
             <td>Объект<br></td>
             {% for object in form_3 %}
-                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% if object.label not in Ignore %}
+                    <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% endif %}
             {% endfor %}
             <td>.<br></td>
         {% endfor %}
@@ -89,7 +95,9 @@
         {% for form_4 in form4 %}
             <td>Объект<br></td>
             {% for object in form_4 %}
-                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% if object.label not in Ignore %}
+                    <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% endif %}
             {% endfor %}
             <td>.<br></td>
         {% endfor %}
@@ -97,7 +105,9 @@
         {% for form_5 in form5 %}
             <td>Объект<br></td>
             {% for object in form_5 %}
-                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% if object.label not in Ignore %}
+                    <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% endif %}
             {% endfor %}
             <td>.<br></td>
         {% endfor %}
@@ -105,7 +115,9 @@
         {% for form_6 in form6 %}
             <td>Объект<br></td>
             {% for object in form_6 %}
-                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% if object.label not in Ignore %}
+                    <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% endif %}
             {% endfor %}
             <td>.<br></td>
         {% endfor %}

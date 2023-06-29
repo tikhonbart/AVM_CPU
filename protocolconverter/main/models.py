@@ -1,9 +1,9 @@
 from django.db import models
 
 
-
 class ModbusSlaveTCP(models.Model):
     Name_ID = models.CharField(max_length=255, default='null', null=True)
+    Sector = models.CharField(max_length=255, default='null', null=True)
     IP = models.CharField(max_length=15)
     Port = models.CharField(max_length=255)
     Clients_Count = models.IntegerField()
@@ -12,8 +12,13 @@ class ModbusSlaveTCP(models.Model):
 
     Registers = models.CharField(max_length=255, default='null', null=True)
 
+    def __str__(self):
+        return self.Name_ID
+
+
 class ModbusikMasterTCP(models.Model):
     Name_ID = models.CharField(max_length=255, default='null', null=True)
+    Sector = models.CharField(max_length=255, default='null', null=True)
     Ip = models.CharField(max_length=15)
     Port = models.CharField(max_length=255)
     Read_timeout = models.CharField(max_length=255)
@@ -29,8 +34,13 @@ class ModbusikMasterTCP(models.Model):
     Write_registers = models.CharField(max_length=255, default='null', null=True)
     Endpoints = models.CharField(max_length=255, default='null', null=True)
 
+    def __str__(self):
+        return self.Name_ID
+
+
 class ModbusSlaveRTU(models.Model):
     Name_ID = models.CharField(max_length=255, default='null', null=True)
+    Sector = models.CharField(max_length=255, default='null', null=True)
     Port = models.CharField(max_length=255)
     Address = models.IntegerField()
     Speed = models.CharField(max_length=255)
@@ -45,8 +55,13 @@ class ModbusSlaveRTU(models.Model):
     Registers = models.CharField(max_length=255, default='null', null=True)
     Registers_type = models.CharField(max_length=255, default='null', null=True)
 
+    def __str__(self):
+        return self.Name_ID
+
+
 class ModbusikMasterRTU(models.Model):
     Name_ID = models.CharField(max_length=255, default='null', null=True)
+    Sector = models.CharField(max_length=255, default='null', null=True)
     Port = models.CharField(max_length=255)
     Speed = models.CharField(max_length=255)
     Parity = models.CharField(max_length=15)
@@ -75,8 +90,13 @@ class ModbusikMasterRTU(models.Model):
     Read_registers = models.CharField(max_length=255, default='null', null=True)
     Write_registers = models.CharField(max_length=255, default='null', null=True)
 
+    def __str__(self):
+        return self.Name_ID
+
+
 class IEC_60870_5_104_Slave(models.Model):
     Name_ID = models.CharField(max_length=255, default='null', null=True)
+    Sector = models.CharField(max_length=255, default='null', null=True)
     Port = models.CharField(max_length=255)
     Name = models.CharField(max_length=255)
     ASDU = models.IntegerField()
@@ -105,8 +125,13 @@ class IEC_60870_5_104_Slave(models.Model):
     Command = models.CharField(max_length=255, default='null', null=True)
     Files = models.CharField(max_length=255, default='null', null=True)
 
+    def __str__(self):
+        return self.Name_ID
+
+
 class IEC_60870_5_104_Master(models.Model):
     Name_ID = models.CharField(max_length=255, default='null', null=True)
+    Sector = models.CharField(max_length=255, default='null', null=True)
     IP = models.CharField(max_length=15)
     Port = models.CharField(max_length=255)
     Reconnect = models.IntegerField()
@@ -129,3 +154,6 @@ class IEC_60870_5_104_Master(models.Model):
     Files = models.CharField(max_length=255, default='null', null=True)
     Endpoints = models.CharField(max_length=255, default='null', null=True)
     Interrogation_periods = models.CharField(max_length=255, default='null', null=True)
+
+    def __str__(self):
+        return self.Name_ID
