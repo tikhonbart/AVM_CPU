@@ -22,14 +22,14 @@
     <div class="content">
         <form action="{% url 'blockview' %}?item={{nameModel}}" method = "post">
             {% csrf_token %}
-
             {% for object in form %}
-                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% if object.label not in Ignore %}
+                    <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% endif %}
                 {% if forloop.last %}
                   <button type="submit">Сохранить в gack</button>
                 {% endif %}
             {% endfor %}
-
         </form>
         {% if success_message %}
           <p>{{ success_message }}</p>  <!-- Выводим сообщение об успешном сохранении формы -->
