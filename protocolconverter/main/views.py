@@ -1,3 +1,5 @@
+import zipfile
+
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from main.forms import *
@@ -142,10 +144,20 @@ def delete_ModbusSlaveRTU(request):
 def add_from_json(request):
     pass
 
+'''Распаковка gack-файла'''
+def unpack_zip(file_path, file_name):
+    with zipfile.ZipFile(file_path, 'r') as zip_ref:
+        with zip_ref.open(file_name) as f:
+            xml_content = ET.parse(f)
+
+    print(xml_content)
+    return xml_content
 
 # запись из xml-файла в базу данных
 def write_into_db(path):
-    json = read_xml(path)
+    path = path.replace('\\', '/')
+    parsing = unpack_zip(path, 'xsystem.xml')
+    json = read_xml(parsing)
     ModbusikMasterTCP_arr = json['ModbusikMasterTCP']
     ModbusSlaveTCP_arr = json['ModbusSlaveTCP']
     IEC_60870_5_104_Slave_arr = json['IEC-60870-5-104-Slave']
@@ -364,7 +376,7 @@ def get_data_from_database():
             'Interrogation_periods': IEC_Master[i].Interrogation_periods
         }
         # получаем список полей модели
-        for i in range(len(IEC_Slave)):
+    for i in range(len(IEC_Slave)):
             # переписываем код с IEC_Master на IEC_Slave и с другими полями
             form2[IEC_Slave[i].Name_ID] = {
                 'Name_ID': IEC_Slave[i].Name_ID, 'Sector': IEC_Slave[i].Sector, 'Port': IEC_Slave[i].Port,
@@ -440,11 +452,11 @@ def get_data_from_database():
 '''Функция считывающая XML файл'''
 
 
-def read_xml(path):
+def read_xml(tree):
     result = {'ModbusikMasterTCP': [], 'ModbusSlaveRTU': [], 'ModbusSlaveTCP': [], 'ModbusikMasterRTU': [],
               'IEC-60870-5-104-Slave': [], 'IEC-60870-5-104-Master-#2': [], 'IEC-60870-5-104-Master': []}
     try:
-        tree = ET.parse(path)
+
         root = tree.getroot()
         '''Проходим по сегменту GACSECTOR'''
         result = read_GACSECTOR(root, result)
