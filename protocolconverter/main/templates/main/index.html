@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>protocolconveter</title>
+    </head>
+
+    <body>
+
+        <form action ="{% url 'home' %}" method= "post">
+            {% csrf_token %}
+            {{ path.as_p }}
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li >{% if message.tags %} "{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <br><button type="submit">Ввод</button>
+        </form>
+
+    </body>
+</html>

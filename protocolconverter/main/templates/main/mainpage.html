@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>block Info</title>
+        <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet" />
+    </head>
+
+    <body>
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="/main">другой файл</a></li>
+            <li>--------------------------</li>
+            {% for item in object_list %}
+                <li><a href="{% url 'blockview' %}?item={{ item }}">{{ item }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="content">
+        <form action="{% url 'blockview' %}?item={{nameModel}}" method = "post">
+            {% csrf_token %}
+            {% for object in form %}
+                <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
+                {% if forloop.last %}
+                  <button type="submit">Сохранить в gack</button>
+                {% endif %}
+            {% endfor %}
+        </form>
+        {% if success_message %}
+          <p>{{ success_message }}</p>  <!-- Выводим сообщение об успешном сохранении формы -->
+        {% endif %}
+    </div>
+
+    </body>
+</html>
