@@ -144,6 +144,7 @@ def delete_ModbusSlaveRTU(request):
 def add_from_json(request):
     pass
 
+
 '''Распаковка gack-файла'''
 def unpack_zip(file_path, file_name):
     with zipfile.ZipFile(file_path, 'r') as zip_ref:
@@ -152,6 +153,7 @@ def unpack_zip(file_path, file_name):
 
     print(xml_content)
     return xml_content
+
 
 # запись из xml-файла в базу данных
 def write_into_db(path):
@@ -476,9 +478,12 @@ def index(request):
         path = GackPath(request.POST)
         if path.is_valid():
             try:
-                """не работает
-                delete_db(request)
-                """
+                IEC_60870_5_104_Master.objects.all().delete()
+                IEC_60870_5_104_Slave.objects.all().delete()
+                ModbusikMasterTCP.objects.all().delete()
+                ModbusikMasterRTU.objects.all().delete()
+                ModbusSlaveTCP.objects.all().delete()
+                ModbusSlaveRTU.objects.all().delete()
 
                 write_into_db(list(path.cleaned_data.values())[0])
 
