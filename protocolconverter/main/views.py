@@ -526,21 +526,22 @@ def viewBlocks(request):
 
             form = form_class(request.POST, instance=current_model)
             try:
-                form.save()
+                if form.is_valid():
+                    form.save()
 
-                write_GACSECTOR(request.session.get('mypath'))
-                success_message = 'данные изменены!'
-                # return redirect(reverse('blockview') + f'?item={nameModel}')
-            except Exception as e:
-                print(e)
-                form.add_error(None, 'ошибка сохранения')
+                    #write_GACSECTOR(request.session.get('mypath'))
+
+                    success_message = 'данные изменены!'
+                    # return redirect(reverse('blockview') + f'?item={nameModel}')
+            except OverflowError:
+                # Обработка ошибки OverflowError
+                form.add_error(None, 'Произошла ошибка с переполнением')
         else:
             form = form_class(instance=current_model)
     else:
         form = None
 
     context = {
-        # "list": listInfo,
         "object_list": object_list,
         "form": form,
         "nameModel": nameModel,

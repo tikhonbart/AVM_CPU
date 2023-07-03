@@ -1,5 +1,10 @@
 from django import forms
 from .models import *
+from django.core.validators import RegexValidator
+
+# маска IP
+ip_address_validator = RegexValidator(regex=r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$',
+                                      message='Введите правильный IP-адрес')
 
 
 class GackPath(forms.Form):
@@ -8,6 +13,9 @@ class GackPath(forms.Form):
 
 
 class IEC_Master_Form(forms.ModelForm):
+    # IP валидатор
+    IP = forms.CharField(validators=[ip_address_validator])
+
     class Meta:
         model = IEC_60870_5_104_Master
         fields = ['Name_ID', 'IP', 'Port', 'Reconnect', 'T1', 'T2', 'T3', 'W', 'K', 'TimeSync', 'TimeSyncFormat',
@@ -36,6 +44,9 @@ class ModbusSlaveRTU_Form(forms.ModelForm):
 
 
 class ModbusikMasterTCP_Form(forms.ModelForm):
+    # IP валидатор
+    Ip = forms.CharField(validators=[ip_address_validator])
+
     class Meta:
         model = ModbusikMasterTCP
         fields = ['Name_ID', 'Ip', 'Port', 'Read_timeout', 'Pause', 'Station_Address', 'Reconnect',
@@ -43,6 +54,9 @@ class ModbusikMasterTCP_Form(forms.ModelForm):
 
 
 class ModbusSlaveTCP_Form(forms.ModelForm):
+    # IP валидатор
+    IP = forms.CharField(validators=[ip_address_validator])
+
     class Meta:
         model = ModbusSlaveTCP
         fields = ['Name_ID', 'IP', 'Port', 'Clients_Count', 'Device_Address', 'Autorun']

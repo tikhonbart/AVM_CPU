@@ -24,13 +24,25 @@
             {% csrf_token %}
             {% for object in form %}
                 <p><label class="form-label" > {{object.label}}: </label> {{ object }} </p>
-                {% if forloop.last %}
-                  <button type="submit">Сохранить в gack</button>
-                {% endif %}
+                <div class="form-error">{{ form.title.errors }}</div>
             {% endfor %}
+            <button type="submit">Сохранить в gack</button>
         </form>
+        <!-- сообщение об удачном сохранении -->
         {% if success_message %}
           <p>{{ success_message }}</p>  <!-- Выводим сообщение об успешном сохранении формы -->
+        {% endif %}
+        <!-- ошибки формы -->
+        {% if form.errors %}
+          <div class="error-message">
+            <ul>
+              {% for field_errors in form.errors.values %}
+                {% for error in field_errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+          </div>
         {% endif %}
     </div>
 
