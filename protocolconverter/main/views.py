@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializers import *
+import os
 
 '''Константы'''
 ARR = ['ModbusikMasterTCP', 'ModbusSlaveRTU', 'ModbusSlaveTCP', 'ModbusikMasterRTU', 'IEC-60870-5-104-Slave',
@@ -544,11 +545,38 @@ def viewBlocks(request):
             form = form_class(request.POST, instance=current_model)
             try:
                 form.save()
-                ''' !!! пока такая заглушка, т.к. нет сохранения gack'''
-                path = 'C:/Users/igor_/Sonica-shared/sad/xsystem.xml'
+                '''Создание промежуточной папки'''
+                listInfo1 = listInfo.replace('\\', '/')
+                l_arr = listInfo1.split('/')
+                l_arr.pop()
+                l_arr[0] += '\\'
+                routee = os.path.join(*l_arr)+'\\intermediate'
+                if not os.path.exists(routee):
+                    os.mkdir(routee)
+                l_arr.append('intermediate')
+
+                folder_path = os.path.join(*l_arr) # путь к папке, которую нужно упаковать
+                fantasy_zip = zipfile.ZipFile(listInfo)
+                fantasy_zip.extractall(folder_path)
+                fantasy_zip.close()
+
+                '''Ищменение промежуточного xml-файла'''
+                path = folder_path+'\\xsystem.xml'
                 write_GACSECTOR(path)
                 success_message = 'данные изменены!'
                 # return redirect(reverse('blockview') + f'?item={nameModel}')
+
+
+                '''Сохранение в gack'''
+                zip_path = listInfo # путь к архиву, который нужно создать
+                zipf = zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED)
+                for root, dirs, files in os.walk(folder_path):
+                    for file in files:
+                        file_path = os.path.join(root, file)
+                        zipf.write(file_path, os.path.relpath(file_path, folder_path))
+                zipf.close()
+
+
             except Exception as e:
                 print(e)
                 form.add_error(None, 'ошибка сохранения')
