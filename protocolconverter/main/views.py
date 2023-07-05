@@ -195,6 +195,7 @@ def write_into_db(path):
             ModbusSlaveTCP.objects.create(**val)
     for item in ModbusikMasterTCP_arr:
         for key, val in item.items():
+            val['Name_ID'] = key
             ModbusikMasterTCP.objects.create(**val)
 
 
@@ -277,8 +278,10 @@ def write_GACSECTOR(path):
                     root1[k1] = v1
                 elif k2 == "Sector" and v2 == "BS_AG":
                     BS_AG[k1] = v1
-
-    print(BS_AG)
+            if k1 == 'ModbusSlaveTCP':
+                print('ModbusSlaveTCP')
+                print(v1)
+    print(BS_AG.keys())
     for group1 in root.findall('GACSECTOR'):
         for group2 in group1:
             '''Ищем root'''
@@ -379,27 +382,27 @@ def get_data_from_database():
         }
         # получаем список полей модели
     for i in range(len(IEC_Slave)):
-            # переписываем код с IEC_Master на IEC_Slave и с другими полями
-            form2[IEC_Slave[i].Name_ID] = {
-                'Name_ID': IEC_Slave[i].Name_ID, 'Sector': IEC_Slave[i].Sector, 'Port': IEC_Slave[i].Port,
-                'Name': IEC_Slave[
-                    i].Name, 'ASDU': IEC_Slave[i].ASDU, 'Address': IEC_Slave[i].Address, 'Count': IEC_Slave[i].Count,
-                'Type':
-                    IEC_Slave[i].Type,
-                'Groups': IEC_Slave[i].Groups, 'Cause_of_transmission': IEC_Slave[i].Cause_of_transmission,
-                'IOA': IEC_Slave[
-                    i].IOA, 'Range': IEC_Slave[i].Range, 'Type_send': IEC_Slave[i].Type_send,
-                'AnswerTimeout': IEC_Slave[
-                    i].AnswerTimeout,
-                'InfoTimeout': IEC_Slave[i].InfoTimeout, 'Downtime': IEC_Slave[i].Downtime, 'W': IEC_Slave[i].W,
-                'K': IEC_Slave[
-                    i].K, 'MaxConnectionCount': IEC_Slave[i].MaxConnectionCount, 'QueueSize': IEC_Slave[i].QueueSize,
-                'Filter':
-                    IEC_Slave[i].Filter,
-                'LogLevel': IEC_Slave[i].LogLevel, 'Autorun': IEC_Slave[i].Autorun, 'Description': IEC_Slave[
-                    i].Description, 'Data': IEC_Slave[i].Data, 'Command': IEC_Slave[i].Command,
-                'Files': IEC_Slave[i].Files
-            }
+        # переписываем код с IEC_Master на IEC_Slave и с другими полями
+        form2[IEC_Slave[i].Name_ID] = {
+            'Name_ID': IEC_Slave[i].Name_ID, 'Sector': IEC_Slave[i].Sector, 'Port': IEC_Slave[i].Port,
+            'Name': IEC_Slave[
+                i].Name, 'ASDU': IEC_Slave[i].ASDU, 'Address': IEC_Slave[i].Address, 'Count': IEC_Slave[i].Count,
+            'Type':
+                IEC_Slave[i].Type,
+            'Groups': IEC_Slave[i].Groups, 'Cause_of_transmission': IEC_Slave[i].Cause_of_transmission,
+            'IOA': IEC_Slave[
+                i].IOA, 'Range': IEC_Slave[i].Range, 'Type_send': IEC_Slave[i].Type_send,
+            'AnswerTimeout': IEC_Slave[
+                i].AnswerTimeout,
+            'InfoTimeout': IEC_Slave[i].InfoTimeout, 'Downtime': IEC_Slave[i].Downtime, 'W': IEC_Slave[i].W,
+            'K': IEC_Slave[
+                i].K, 'MaxConnectionCount': IEC_Slave[i].MaxConnectionCount, 'QueueSize': IEC_Slave[i].QueueSize,
+            'Filter':
+                IEC_Slave[i].Filter,
+            'LogLevel': IEC_Slave[i].LogLevel, 'Autorun': IEC_Slave[i].Autorun, 'Description': IEC_Slave[
+                i].Description, 'Data': IEC_Slave[i].Data, 'Command': IEC_Slave[i].Command,
+            'Files': IEC_Slave[i].Files
+        }
     #
     for i in range(len(ModMasterRTU)):
         form3[ModMasterRTU[i].Name_ID] = {
@@ -445,7 +448,7 @@ def get_data_from_database():
         form6[ModSlaveTCP[i].Name_ID] = {
             'Name_ID': ModSlaveTCP[i].Name_ID, 'IP': ModSlaveTCP[i].IP, 'Port': ModSlaveTCP[i].Port, 'Clients_Count':
                 ModSlaveTCP[i].Clients_Count, 'Device_Address': ModSlaveTCP[i].Device_Address,
-            'Autorun': ModSlaveTCP[i].Autorun, 'Registers': ModSlaveTCP[i].Registers}
+            'Autorun': ModSlaveTCP[i].Autorun, 'Registers': ModSlaveTCP[i].Registers, 'Sector': ModSlaveTCP[i].Sector}
 
     form_res = [form1, form2, form3, form4, form5, form6]
     return form_res
@@ -533,14 +536,17 @@ def viewBlocks(request):
             try:
                 if form.is_valid():
                     form.save()
+                    ''' !!! пока такая заглушка, т.к. нет сохранения gack'''
+                    path = 'C:/Users/igor_/Sonica-shared/sad/xsystem.xml'
+                    write_GACSECTOR(path)
 
                     #write_GACSECTOR(request.session.get('mypath'))
 
                     success_message = 'данные изменены!'
                     # return redirect(reverse('blockview') + f'?item={nameModel}')
-            except OverflowError:
-                # Обработка ошибки OverflowError
-                form.add_error(None, 'Произошла ошибка с переполнением')
+            except Exception as e:
+                print(e)
+                form.add_error(None, 'ошибка сохранения')
         else:
             form = form_class(instance=current_model)
     else:
