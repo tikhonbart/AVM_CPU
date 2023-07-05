@@ -13,6 +13,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializers import *
 import os
+import shutil
 
 '''Константы'''
 ARR = ['ModbusikMasterTCP', 'ModbusSlaveRTU', 'ModbusSlaveTCP', 'ModbusikMasterRTU', 'IEC-60870-5-104-Slave',
@@ -552,6 +553,9 @@ def viewBlocks(request):
                 l_arr[0] += '\\'
                 routee = os.path.join(*l_arr)+'\\intermediate'
                 if not os.path.exists(routee):
+                    os.mkdir(routee)
+                else:
+                    shutil.rmtree(routee)
                     os.mkdir(routee)
                 l_arr.append('intermediate')
 
