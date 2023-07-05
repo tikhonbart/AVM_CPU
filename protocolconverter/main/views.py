@@ -278,10 +278,12 @@ def write_GACSECTOR(path):
                     root1[k1] = v1
                 elif k2 == "Sector" and v2 == "BS_AG":
                     BS_AG[k1] = v1
+            """
             if k1 == 'ModbusSlaveTCP':
                 print('ModbusSlaveTCP')
                 print(v1)
     print(BS_AG.keys())
+    """
     for group1 in root.findall('GACSECTOR'):
         for group2 in group1:
             '''Ищем root'''
@@ -341,7 +343,7 @@ def write_GACSECTOR(path):
                                 cut = group5.get('name')
                                 cut1 = cut.replace(" ", "_")
                                 fr = group5.get('val')
-                                print(group4.attrib['tag'])
+                                #print(group4.attrib['tag'])
                                 ffr = BS_AG[group4.attrib['tag']]
                                 fr1 = ffr[cut1]
                                 cut1 = cut.replace("_", " ")
@@ -508,15 +510,14 @@ def categories(request):
 
 # обработчик окна с выводом информации из gack файла
 def viewBlocks(request):
+    object_list = [ModbusSlaveTCP.objects.all(), ModbusikMasterTCP.objects.all(),
+                   ModbusSlaveRTU.objects.all(), ModbusikMasterRTU.objects.all(),
+                   IEC_60870_5_104_Slave.objects.all(), IEC_60870_5_104_Master.objects.all()]
 
-    object_list = [ModbusSlaveTCP.objects.first(), ModbusikMasterTCP.objects.first(),
-                   ModbusSlaveRTU.objects.first(), ModbusikMasterRTU.objects.first(),
-                   IEC_60870_5_104_Slave.objects.first(), IEC_60870_5_104_Master.objects.first()]
-
-    object_list = [x for x in object_list if x is not None]
-
+    # имя модели
     nameModel = request.GET.get('item')
-    success_message = None
+    # поле Name_ID по которому находим элемент в базе
+    name_id = request.GET.get('Name_ID')
 
     model_form_mapping = {
         "IEC_60870_5_104_Master": (IEC_Master_Form, IEC_60870_5_104_Master),
@@ -528,22 +529,21 @@ def viewBlocks(request):
     }
     if nameModel in model_form_mapping:
         form_class, model_class = model_form_mapping[nameModel]
-        current_model = model_class.objects.first()
+        current_model = model_class.objects.get(Name_ID=name_id)
 
         if request.method == "POST":
 
             form = form_class(request.POST, instance=current_model)
             try:
-                if form.is_valid():
-                    form.save()
-                    ''' !!! пока такая заглушка, т.к. нет сохранения gack'''
-                    path = 'C:/Users/igor_/Sonica-shared/sad/xsystem.xml'
-                    write_GACSECTOR(path)
+                #if form.is_valid():
+                form.save()
+                ''' !!! пока такая заглушка, т.к. нет сохранения gack'''
+                path = 'C://Users//89154//OneDrive//Рабочий стол//проекты//третий курс//практика//pyon//test_blocks.xml'
+                write_GACSECTOR(path)
 
-                    #write_GACSECTOR(request.session.get('mypath'))
-
-                    success_message = 'данные изменены!'
-                    # return redirect(reverse('blockview') + f'?item={nameModel}')
+                #write_GACSECTOR(request.session.get('mypath'))
+                messages.success(request, 'данные изменены!')
+                # return redirect(reverse('blockview') + f'?item={nameModel}')
             except Exception as e:
                 print(e)
                 form.add_error(None, 'ошибка сохранения')
@@ -556,7 +556,7 @@ def viewBlocks(request):
         "object_list": object_list,
         "form": form,
         "nameModel": nameModel,
-        'success_message': success_message
+        "name_id": name_id
     }
     # список информации о блоках
     return render(request, "main/mainpage.html", context)
