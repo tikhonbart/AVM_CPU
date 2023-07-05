@@ -281,12 +281,12 @@ def write_GACSECTOR(path):
                     root1[k1] = v1
                 elif k2 == "Sector" and v2 == "BS_AG":
                     BS_AG[k1] = v1
-
+            """
             if k1 == 'ModbusSlaveTCP':
                 print('ModbusSlaveTCP')
                 print(v1)
     print(BS_AG.keys())
-
+    """
     for group1 in root.findall('GACSECTOR'):
         for group2 in group1:
             '''Ищем root'''
@@ -486,9 +486,12 @@ def index(request):
         path = GackPath(request.POST)
         if path.is_valid():
             try:
-                """не работает
-                delete_db(request)
-                """
+                IEC_60870_5_104_Master.objects.all().delete()
+                IEC_60870_5_104_Slave.objects.all().delete()
+                ModbusikMasterTCP.objects.all().delete()
+                ModbusikMasterRTU.objects.all().delete()
+                ModbusSlaveTCP.objects.all().delete()
+                ModbusSlaveRTU.objects.all().delete()
 
                 write_into_db(list(path.cleaned_data.values())[0])
 
@@ -510,23 +513,15 @@ def categories(request):
 
 # обработчик окна с выводом информации из gack файла
 def viewBlocks(request):
+    object_list = [ModbusSlaveTCP.objects.all(), ModbusikMasterTCP.objects.all(),
+                   ModbusSlaveRTU.objects.all(), ModbusikMasterRTU.objects.all(),
+                   IEC_60870_5_104_Slave.objects.all(), IEC_60870_5_104_Master.objects.all()]
+
     listInfo = request.session.get('mypath')
-
-    IGNORE_LIST = ['Sector', 'Registers', 'Read_registers', 'Write_registers', 'Endpoints', 'Registers_type',
-                   'Start', 'Data_Type', 'Count', 'Bytes_Order', 'Period', 'Name', 'Composition', 'Control',
-                   'Description', 'Data', 'Command', 'Files', 'Read registers', 'Write registers',
-                   'Registers type', 'Bytes Order', 'Data Type', 'Interrogation periods',
-                   'Interrogation_periods', "IOA", "ASDU", "Type", "Groups", "Cause of transmission",
-                   "Range", "Type send", "Registers Type"]  # - динамические элементы
-
-    object_list = [ModbusSlaveTCP.objects.first(), ModbusikMasterTCP.objects.first(),
-                   ModbusSlaveRTU.objects.first(), ModbusikMasterRTU.objects.first(),
-                   IEC_60870_5_104_Slave.objects.first(), IEC_60870_5_104_Master.objects.first()]
-
-    object_list = [x for x in object_list if x is not None]
-
+    # имя модели
     nameModel = request.GET.get('item')
-    success_message = None
+    # поле Name_ID по которому находим элемент в базе
+    name_id = request.GET.get('Name_ID')
 
     model_form_mapping = {
         "IEC_60870_5_104_Master": (IEC_Master_Form, IEC_60870_5_104_Master),
@@ -538,7 +533,7 @@ def viewBlocks(request):
     }
     if nameModel in model_form_mapping:
         form_class, model_class = model_form_mapping[nameModel]
-        current_model = model_class.objects.first()
+        current_model = model_class.objects.get(Name_ID=name_id)
 
         if request.method == "POST":
 
@@ -563,7 +558,9 @@ def viewBlocks(request):
                 '''Ищменение промежуточного xml-файла'''
                 path = folder_path+'\\xsystem.xml'
                 write_GACSECTOR(path)
-                success_message = 'данные изменены!'
+
+                #write_GACSECTOR(request.session.get('mypath'))
+                messages.success(request, 'данные изменены!')
                 # return redirect(reverse('blockview') + f'?item={nameModel}')
 
 
@@ -576,7 +573,6 @@ def viewBlocks(request):
                         zipf.write(file_path, os.path.relpath(file_path, folder_path))
                 zipf.close()
 
-
             except Exception as e:
                 print(e)
                 form.add_error(None, 'ошибка сохранения')
@@ -586,12 +582,10 @@ def viewBlocks(request):
         form = None
 
     context = {
-        # "list": listInfo,
         "object_list": object_list,
         "form": form,
         "nameModel": nameModel,
-        'success_message': success_message,
-        "Ignore": IGNORE_LIST
+        "name_id": name_id
     }
     # список информации о блоках
     return render(request, "main/mainpage.html", context)
