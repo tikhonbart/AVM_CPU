@@ -219,12 +219,12 @@ def read_GACSECTOR(root, result):
                             '''Формируем результат'''
                             gr5 = {}
                             for group5 in group4:
-                                if group5.findall('Struct'):
-                                    for group6 in group5.findall('Struct'):
-                                        for group7 in group6:
-                                            cut1 = group7.get('name')
-                                            cut1 = cut1.replace(" ", "_")
-                                            gr5[cut1] = group7.get('val')
+                                # if group5.findall('Struct'):
+                                #     for group6 in group5.findall('Struct'):
+                                #         for group7 in group6:
+                                #             cut1 = group7.get('name')
+                                #             cut1 = cut1.replace(" ", "_")
+                                #             gr5[cut1] = group7.get('val')
                                 cut = group5.get('name')
                                 cut = cut.replace(" ", "_")
                                 gr5[cut] = group5.get('val')
@@ -245,12 +245,12 @@ def read_GACSECTOR(root, result):
                             '''Формируем результат'''
                             gr5 = {}
                             for group5 in group4:
-                                if group5.findall('Struct'):
-                                    for group6 in group5.findall('Struct'):
-                                        for group7 in group6:
-                                            cut1 = group7.get('name')
-                                            cut1 = cut1.replace(" ", "_")
-                                            gr5[cut1] = group7.get('val')
+                                # if group5.findall('Struct'):
+                                #     for group6 in group5.findall('Struct'):
+                                #         for group7 in group6:
+                                #             cut1 = group7.get('name')
+                                #             cut1 = cut1.replace(" ", "_")
+                                #             gr5[cut1] = group7.get('val')
 
                                 cut = group5.get('name')
                                 cut = cut.replace(" ", "_")
@@ -298,19 +298,21 @@ def write_GACSECTOR(path):
                         '''Ищем необходимые элементы, записанные в константе'''
                         if len(group4.attrib) > 0 and group4.attrib['tag'] in root1.keys():
                             for group5 in group4:
-
-                                if group5.findall('Struct'):
-                                    for group6 in group5.findall('Struct'):
-                                        for group7 in group6:
-                                            cut = group7.get('name')
-                                            cut1 = cut.replace(" ", "_")
-                                            fr = group7.get('val')
-
-                                            ffr = root1[group4.attrib['tag']]
-                                            fr1 = ffr[cut1]
-                                            cut1 = cut.replace("_", " ")
-                                            group5.set('val', str(fr1))
-                                            tree.write(path)
+                                '''Удалил считку динамической части'''
+                                # if group5.findall('Struct'):
+                                #     for group6 in group5.findall('Struct'):
+                                #         for group7 in group6:
+                                #             cut = group7.get('name')
+                                #             cut1 = cut.replace(" ", "_")
+                                #             fr = group7.get('val')
+                                #
+                                #             ffr = root1[group4.attrib['tag']]
+                                #             fr1 = ffr[cut1]
+                                #             cut1 = cut.replace("_", " ")
+                                #             '''Проверка, чтобы не записывалось, когда table'''
+                                #             if group7.get('type') == 'val':
+                                #                 group7.set('val', str(fr1)) # было group5.set('val', str(fr1))
+                                #                 tree.write(path)
 
                                 cut = group5.get('name')
                                 cut1 = cut.replace(" ", "_")
@@ -321,8 +323,9 @@ def write_GACSECTOR(path):
                                 fr1 = ffr[cut1]
 
                                 cut1 = cut.replace("_", " ")
-                                group5.set('val', str(fr1))
-                                tree.write(path)
+                                if group5.get('type') == 'val':
+                                    group5.set('val', str(fr1))
+                                    tree.write(path)
 
             '''Ищем BS_AG'''
             if len(group2.attrib) > 0 and group2.attrib['name'] == 'BS_AG':
@@ -333,17 +336,20 @@ def write_GACSECTOR(path):
                         if len(group4.attrib) > 0 and group4.attrib['type'] in BS_AG.keys():
                             '''Формируем результат'''
                             for group5 in group4:
-                                if group5.findall('Struct'):
-                                    for group6 in group5.findall('Struct'):
-                                        for group7 in group6:
-                                            cut = group7.get('name')
-                                            cut1 = cut.replace(" ", "_")
-                                            fr = group7.get('val')
-                                            ffr = BS_AG[group4.attrib['tag']]
-                                            fr1 = ffr[cut1]
-                                            cut1 = cut.replace("_", " ")
-                                            group5.set('val', str(fr1))
-                                            tree.write(path)
+                                '''Удалил считку динамической части'''
+                                # if group5.findall('Struct'):
+                                #     for group6 in group5.findall('Struct'):
+                                #         for group7 in group6:
+                                #             cut = group7.get('name')
+                                #             cut1 = cut.replace(" ", "_")
+                                #             fr = group7.get('val')
+                                #             ffr = BS_AG[group4.attrib['tag']]
+                                #             fr1 = ffr[cut1]
+                                #             cut1 = cut.replace("_", " ")
+                                #    '''Проверка, чтобы не записывалось, когда table'''
+                                #             if group7.get('type') == 'val':
+                                #                 group7.set('val', str(fr1)) # было group5.set('val', str(fr1))
+                                #                 tree.write(path)
                                 cut = group5.get('name')
                                 cut1 = cut.replace(" ", "_")
                                 fr = group5.get('val')
@@ -351,9 +357,15 @@ def write_GACSECTOR(path):
                                 ffr = BS_AG[group4.attrib['tag']]
                                 fr1 = ffr[cut1]
                                 cut1 = cut.replace("_", " ")
-                                group5.set('val', str(fr1))
-                                tree.write(path)
+                                '''Проверка, чтобы не записывалось, когда table'''
+                                if group5.get('type') == 'val':
+                                    group5.set('val', str(fr1))
+                                    tree.write(path)
     tree.write(path)
+
+    with open(path, 'wb') as f:
+        f.write(b'<?xml version="1.0" encoding="utf-8"?>\n')
+        tree.write(f, encoding='utf-8')
 
 
 def get_data_from_database():
@@ -545,6 +557,8 @@ def viewBlocks(request):
 
             form = form_class(request.POST, instance=current_model)
             try:
+
+                '''Сохранение данных в GACK'''
                 form.save()
                 '''Создание промежуточной папки'''
                 listInfo1 = listInfo.replace('\\', '/')
@@ -570,6 +584,9 @@ def viewBlocks(request):
                 success_message = 'данные изменены!'
                 # return redirect(reverse('blockview') + f'?item={nameModel}')
 
+                # удалил файл(( надюсь, он не особо нужен
+                if os.path.exists(folder_path+"\\hash.txt"):
+                    os.remove(folder_path+"\\hash.txt")
 
                 '''Сохранение в gack'''
                 zip_path = listInfo # путь к архиву, который нужно создать
