@@ -14,6 +14,7 @@ from rest_framework import status
 from .serializers import *
 import os
 import shutil
+import tempfile
 
 '''Константы'''
 ARR = ['ModbusikMasterTCP', 'ModbusSlaveRTU', 'ModbusSlaveTCP', 'ModbusikMasterRTU', 'IEC-60870-5-104-Slave',
@@ -555,44 +556,45 @@ def viewBlocks(request):
 
                 '''Сохранение данных в GACK'''
                 form.save()
+
                 '''Создание промежуточной папки'''
                 listInfo1 = listInfo.replace('\\', '/')
                 l_arr = listInfo1.split('/')
                 l_arr.pop()
                 l_arr[0] += '\\'
-                routee = os.path.join(*l_arr)+'\\intermediate'
-                if not os.path.exists(routee):
-                    os.mkdir(routee)
-                else:
-                    shutil.rmtree(routee)
-                    os.mkdir(routee)
-                l_arr.append('intermediate')
 
-                folder_path = os.path.join(*l_arr) # путь к папке, которую нужно упаковать
+                # Создание временного каталога
+                temp_dir = tempfile.TemporaryDirectory()
+                folder_path = temp_dir.name
+
                 fantasy_zip = zipfile.ZipFile(listInfo)
                 fantasy_zip.extractall(folder_path)
                 fantasy_zip.close()
 
-                '''Ищменение промежуточного xml-файла'''
-                path = folder_path+'\\xsystem.xml'
+                '''Изменение промежуточного xml-файла'''
+                path = os.path.join(folder_path, 'xsystem.xml')
                 write_GACSECTOR(path)
 
-                #write_GACSECTOR(request.session.get('mypath'))
+                # write_GACSECTOR(request.session.get('mypath'))
                 messages.success(request, 'данные изменены!')
                 # return redirect(reverse('blockview') + f'?item={nameModel}')
 
                 # удалил файл(( надюсь, он не особо нужен
-                if os.path.exists(folder_path+"\\hash.txt"):
-                    os.remove(folder_path+"\\hash.txt")
+                hash_file_path = os.path.join(folder_path, "hash.txt")
+                if os.path.exists(hash_file_path):
+                    os.remove(hash_file_path)
 
                 '''Сохранение в gack'''
-                zip_path = listInfo # путь к архиву, который нужно создать
+                zip_path = listInfo  # путь к архиву, который нужно создать
                 zipf = zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED)
                 for root, dirs, files in os.walk(folder_path):
                     for file in files:
                         file_path = os.path.join(root, file)
                         zipf.write(file_path, os.path.relpath(file_path, folder_path))
                 zipf.close()
+
+                # Закрытие и удаление временного каталога
+                temp_dir.cleanup()
 
             except Exception as e:
                 print(e)
