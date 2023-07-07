@@ -11,11 +11,11 @@
 
     <div class="sidebar">
         <ul>
-            <li><a href="/main">другой файл</a></li>
+            <li><a href="/">другой файл</a></li>
             <li>--------------------------</li>
             {% for obj in object_list %}
                 {% for item in obj %}
-                    <li><a href="{% url 'blockview' %}?item={{ item }}&Name_ID={{ item.Name_ID }}">
+                    <li><a href="{% url 'blockview' %}?item={{ item }}&Name_ID={{ item.Name_ID|urlencode }}">
                         {{ item.Name_ID }}
                     </a></li>
                 {% endfor %}
