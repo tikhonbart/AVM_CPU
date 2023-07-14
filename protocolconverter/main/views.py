@@ -173,36 +173,92 @@ def write_into_db(path):
     ModbusikMasterRTU_arr = json['ModbusikMasterRTU']
     ModbusSlaveRTU_arr = json['ModbusSlaveRTU']
     # print('here')
+
     for item in ModbusSlaveRTU_arr:
         for key, val in item.items():
             val['Name_ID'] = key
-            ModbusSlaveRTU.objects.create(**val)
+            if "Dyn" in val:
+                val1 = val["Dyn"]
+                val.pop("Dyn")
+
+                ModbusSlaveRTU.objects.create(**val)
+                for i in val1:
+                    ModbusSlaveRTU_dyn.objects.create(**i)
+                print(ModbusSlaveRTU_dyn.objects.all())
+            else:
+                ModbusSlaveRTU.objects.create(**val)
+
     for item in ModbusikMasterRTU_arr:
+        print("sd")
         for key, val in item.items():
             val['Name_ID'] = key
-            # print(val)
-            ModbusikMasterRTU.objects.create(**val)
+            if "Dyn" in val:
+                val2 = val["Dyn"]
+                val.pop("Dyn")
+                ModbusikMasterRTU.objects.create(**val)
+                for i in val2:
+                    ModbusikMasterRTU_dyn.objects.create(**i)
+            else:
+                ModbusikMasterRTU.objects.create(**val)
     for item in IEC_60870_5_104_Master_arr:
         for key, val in item.items():
             val['Name_ID'] = key
-            IEC_60870_5_104_Master.objects.create(**val)
+            if "Dyn" in val:
+                val3 = val["Dyn"]
+                val.pop("Dyn")
+                IEC_60870_5_104_Master.objects.create(**val)
+                for i in val3:
+                    IEC_60870_5_104_Master_dyn.objects.create(**i)
+                print(IEC_60870_5_104_Master_dyn.objects.all())
+            else:
+                IEC_60870_5_104_Master.objects.create(**val)
+
     for item in IEC_60870_5_104_Master_2_arr:
         for key, val in item.items():
             val['Name_ID'] = key
-            IEC_60870_5_104_Master.objects.create(**val)
+            if "Dyn" in val:
+                val4 = val["Dyn"]
+                val.pop("Dyn")
+                IEC_60870_5_104_Master.objects.create(**val)
+                for i in val4:
+                    IEC_60870_5_104_Master_dyn.objects.create(**i)
+            else:
+                IEC_60870_5_104_Master.objects.create(**val)
     for item in IEC_60870_5_104_Slave_arr:
         for key, val in item.items():
             val['Name_ID'] = key
-            IEC_60870_5_104_Slave.objects.create(**val)
+            if "Dyn" in val:
+                val5 = val["Dyn"]
+                val.pop("Dyn")
+                IEC_60870_5_104_Slave.objects.create(**val)
+                for i in val5:
+                    IEC_60870_5_104_Slave_dyn.objects.create(**i)
+                print(IEC_60870_5_104_Slave_dyn.objects.all())
+            else:
+                IEC_60870_5_104_Slave.objects.create(**val)
     for item in ModbusSlaveTCP_arr:
         for key, val in item.items():
             val['Name_ID'] = key
-            ModbusSlaveTCP.objects.create(**val)
+            if "Dyn" in val:
+                val6 = val["Dyn"]
+                val.pop("Dyn")
+                ModbusSlaveTCP.objects.create(**val)
+                for i in val6:
+                    ModbusSlaveTCP_dyn.objects.create(**i)
+            else:
+                ModbusSlaveTCP.objects.create(**val)
     for item in ModbusikMasterTCP_arr:
         for key, val in item.items():
             val['Name_ID'] = key
-            ModbusikMasterTCP.objects.create(**val)
-
+            if "Dyn" in val:
+                val7 = val["Dyn"]
+                val.pop("Dyn")
+                ModbusikMasterTCP.objects.create(**val)
+                for i in val7:
+                    ModbusikMasterTCP_dyn.objects.create(**i)
+            else:
+                ModbusikMasterTCP.objects.create(**val)
+    print('fine')
 
 ''' обработка gack файла '''
 
@@ -219,21 +275,30 @@ def read_GACSECTOR(root, result):
                         if len(group4.attrib) > 0 and group4.attrib['type'] in ARR:
                             '''Формируем результат'''
                             gr5 = {}
+                            gr7 = {}
                             for group5 in group4:
-                                # if group5.findall('Struct'):
-                                #     for group6 in group5.findall('Struct'):
-                                #         for group7 in group6:
-                                #             cut1 = group7.get('name')
-                                #             cut1 = cut1.replace(" ", "_")
-                                #             gr5[cut1] = group7.get('val')
-                                cut = group5.get('name')
-                                cut = cut.replace(" ", "_")
-                                gr5[cut] = group5.get('val')
-                                result1 = {}
-                                gr5["Sector"] = "root"
-                                result1[group4.attrib['tag']] = gr5
-                                if result1 not in result[group4.attrib['type']]:
-                                    result[group4.attrib['type']].append(result1)
+                                arr1 = []
+                                if group5.findall('Struct'):
+                                    for group6 in group5.findall('Struct'):
+                                        for group7 in group6:
+                                            cut1 = group7.get('name')
+                                            cut1 = cut1.replace(" ", "_")
+                                            gr7[cut1] = group7.get('val')
+                                    arr1.append(gr7)
+                                gr5["Dyn"] = arr1
+
+                                    #print(gr5)
+                                #gr5["Dyn"] = arr1
+                                if group5.get('type') == 'val':
+                                    cut = group5.get('name')
+                                    cut = cut.replace(" ", "_")
+                                    gr5[cut] = group5.get('val')
+                                    result1 = {}
+                                    gr5["Sector"] = "root"
+
+                                    result1[group4.attrib['tag']] = gr5
+                                    if result1 not in result[group4.attrib['type']]:
+                                        result[group4.attrib['type']].append(result1)
                                 # result[group4.attrib['tag']] = gr5
 
             '''Ищем BS_AG'''
@@ -244,25 +309,33 @@ def read_GACSECTOR(root, result):
                         '''Ищем необходимые элементы, записанные в константе'''
                         if len(group4.attrib) > 0 and group4.attrib['type'] in ARR:
                             '''Формируем результат'''
+                            arr1 = []
                             gr5 = {}
+                            gr7 = {}
                             for group5 in group4:
-                                # if group5.findall('Struct'):
-                                #     for group6 in group5.findall('Struct'):
-                                #         for group7 in group6:
-                                #             cut1 = group7.get('name')
-                                #             cut1 = cut1.replace(" ", "_")
-                                #             gr5[cut1] = group7.get('val')
+                                if group5.findall('Struct'):
+                                    for group6 in group5.findall('Struct'):
+                                        for group7 in group6:
+                                            cut1 = group7.get('name')
+                                            cut1 = cut1.replace(" ", "_")
+                                            gr7[cut1] = group7.get('val')
+                                    arr1.append(gr7)
+                                gr5["Dyn"] = arr1
+                                #gr5["Dyn"] = arr1
 
-                                cut = group5.get('name')
-                                cut = cut.replace(" ", "_")
-                                gr5[cut] = group5.get('val')
-                                gr5["Sector"] = "BS_AG"
-                                result1 = {}
-                                result1[group4.attrib['tag']] = gr5
-                                if result1 not in result[group4.attrib['type']]:
-                                    result[group4.attrib['type']].append(result1)
+                                if group5.get('type') == 'val':
+                                    cut = group5.get('name')
+                                    cut = cut.replace(" ", "_")
+                                    gr5[cut] = group5.get('val')
+                                    gr5["Sector"] = "BS_AG"
+
+
+                                    result1 = {}
+                                    result1[group4.attrib['tag']] = gr5
+                                    if result1 not in result[group4.attrib['type']]:
+                                        result[group4.attrib['type']].append(result1)
                                 # result[group4.attrib['tag']] = gr5
-
+    print(result)
     return result
 
 
@@ -499,7 +572,7 @@ def index(request):
     if request.method == "POST":
         path = GackPath(request.POST)
         if path.is_valid():
-            try:
+            #try:
                 IEC_60870_5_104_Master.objects.all().delete()
                 IEC_60870_5_104_Slave.objects.all().delete()
                 ModbusikMasterTCP.objects.all().delete()
@@ -511,9 +584,9 @@ def index(request):
 
                 request.session['mypath'] = list(path.cleaned_data.values())[0]
                 return redirect('/controllerInfo/')
-            except Exception as e:
-                print(e)
-                messages.error(request, "неверный путь!")
+            #except Exception as e:
+                # print(e)
+                # messages.error(request, "неверный путь!")
     else:
         path = GackPath()
     return render(request, "main/index.html", {"path": path})

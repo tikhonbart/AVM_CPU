@@ -60,10 +60,15 @@ class ModbusSlaveTCP(ChoicesMixin, models.Model):
 
     Name_ID = models.CharField(max_length=255, default='null', null=True)
     Sector = models.CharField(max_length=255, default='null', null=True, blank=True)
-    Registers = models.CharField(max_length=255, default='null', null=True, blank=True)
+
 
     def __str__(self):
         return "ModbusSlaveTCP"
+
+
+class ModbusSlaveTCP_dyn(models.Model):
+    Registers = models.CharField(max_length=255, default='null', null=True, blank=True)
+    modbus_slave_TCP = models.ForeignKey(ModbusSlaveTCP, on_delete=models.PROTECT, null=True)
 
 
 class ModbusikMasterTCP(ChoicesMixin, models.Model):
@@ -81,12 +86,17 @@ class ModbusikMasterTCP(ChoicesMixin, models.Model):
 
     Name_ID = models.CharField(max_length=255, default='null', null=True)
     Sector = models.CharField(max_length=255, default='null', null=True, blank=True)
-    Read_registers = models.CharField(max_length=255, default='null', null=True, blank=True)
-    Write_registers = models.CharField(max_length=255, default='null', null=True, blank=True)
-    Endpoints = models.CharField(max_length=255, default='null', null=True, blank=True)
+
 
     def __str__(self):
         return "ModbusikMasterTCP"
+
+
+class ModbusikMasterTCP_dyn(models.Model):
+    Read_registers = models.CharField(max_length=255, default='null', null=True, blank=True)
+    Write_registers = models.CharField(max_length=255, default='null', null=True, blank=True)
+    Endpoints = models.CharField(max_length=255, default='null', null=True, blank=True)
+    modbusik_master_TCP = models.ForeignKey(ModbusikMasterTCP, on_delete=models.PROTECT, null=True)
 
 
 class ModbusSlaveRTU(ChoicesMixin, models.Model):
@@ -103,12 +113,18 @@ class ModbusSlaveRTU(ChoicesMixin, models.Model):
 
     Name_ID = models.CharField(max_length=255, default='null', null=True)
     Sector = models.CharField(max_length=255, default='null', null=True, blank=True)
-    Count = models.CharField(max_length=255, blank=True)
-    Registers = models.CharField(max_length=255, default='null', null=True, blank=True)
-    Registers_type = models.CharField(max_length=255, default='null', null=True, blank=True)
+
 
     def __str__(self):
         return "ModbusSlaveRTU"
+
+
+class ModbusSlaveRTU_dyn(models.Model):
+    Count = models.CharField(max_length=255, blank=True)
+    Registers = models.CharField(max_length=255, default='null', null=True, blank=True)
+    Registers_type = models.CharField(max_length=255, default='null', null=True, blank=True)
+    Address = models.CharField(max_length=255, default='null', null=True, blank=True)
+    modbus_slave_rtu = models.ForeignKey(ModbusSlaveRTU, on_delete=models.PROTECT, null=True)
 
 
 class ModbusikMasterRTU(ChoicesMixin, models.Model):
@@ -129,6 +145,15 @@ class ModbusikMasterRTU(ChoicesMixin, models.Model):
 
     Name_ID = models.CharField(max_length=255, default='null', null=True)
     Sector = models.CharField(max_length=255, default='null', null=True, blank=True)
+
+    Read_registers = models.CharField(max_length=255, default='null', null=True, blank=True)
+    Write_registers = models.CharField(max_length=255, default='null', null=True, blank=True)
+
+    def __str__(self):
+        return "ModbusikMasterRTU"
+
+
+class ModbusikMasterRTU_dyn(models.Model):
     Registers_Type = models.CharField(max_length=255, default='null', null=True, blank=True)
     Start = models.CharField(max_length=255, default='null', null=True, blank=True)
     Data_Type = models.CharField(max_length=255, default='null', null=True, blank=True)
@@ -139,12 +164,7 @@ class ModbusikMasterRTU(ChoicesMixin, models.Model):
     Name = models.CharField(max_length=255, default='null', null=True, blank=True)
     Composition = models.CharField(max_length=255, default='null', null=True, blank=True)
     Control = models.CharField(max_length=255, default='null', null=True, blank=True)
-
-    Read_registers = models.CharField(max_length=255, default='null', null=True, blank=True)
-    Write_registers = models.CharField(max_length=255, default='null', null=True, blank=True)
-
-    def __str__(self):
-        return "ModbusikMasterRTU"
+    modbusik_master_rtu = models.ForeignKey(ModbusikMasterRTU, on_delete=models.PROTECT, null=True)
 
 
 class IEC_60870_5_104_Slave(ChoicesMixin, models.Model):
@@ -162,17 +182,6 @@ class IEC_60870_5_104_Slave(ChoicesMixin, models.Model):
 
     Name_ID = models.CharField(max_length=255, default='null', null=True)
     Sector = models.CharField(max_length=255, default='null', null=True, blank=True)
-    Name = models.CharField(max_length=255, blank=True)
-    ASDU = models.IntegerField(null=True, blank=True)
-    Address = models.IntegerField(null=True, blank=True)
-    Count = models.IntegerField(null=True, blank=True)
-    Type = models.CharField(max_length=255, blank=True)
-    Groups = models.CharField(max_length=255, blank=True)
-    Cause_of_transmission = models.CharField(max_length=255, blank=True)
-    IOA = models.IntegerField(null=True, blank=True)
-    Range = models.IntegerField(null=True, blank=True)
-    Type_send = models.CharField(max_length=255, blank=True)
-    Description = models.CharField(max_length=255, default='null', null=True, blank=True)
 
     Data = models.CharField(max_length=255, default='null', null=True, blank=True)
     Command = models.CharField(max_length=255, default='null', null=True, blank=True)
@@ -181,6 +190,21 @@ class IEC_60870_5_104_Slave(ChoicesMixin, models.Model):
     def __str__(self):
         return "IEC_60870_5_104_Slave"
 
+
+class IEC_60870_5_104_Slave_dyn(models.Model):
+    Name = models.CharField(max_length=255, blank=True)
+    ASDU = models.IntegerField(null=True, blank=True)
+    Description = models.CharField(max_length=255, default='null', null=True, blank=True)
+    Address = models.IntegerField(null=True, blank=True)
+    Count = models.IntegerField(null=True, blank=True)
+    Type = models.CharField(max_length=255, blank=True)
+    Groups = models.CharField(max_length=255, blank=True)
+    Cause_of_transmission = models.CharField(max_length=255, blank=True)
+
+    IOA = models.IntegerField(null=True, blank=True)
+    Range = models.IntegerField(null=True, blank=True)
+    Type_send = models.CharField(max_length=255, blank=True)
+    iec_60870_5_104_slave = models.ForeignKey(IEC_60870_5_104_Slave, on_delete=models.PROTECT, null=True)
 
 class IEC_60870_5_104_Master(ChoicesMixin, models.Model):
 
@@ -203,11 +227,15 @@ class IEC_60870_5_104_Master(ChoicesMixin, models.Model):
 
     Name_ID = models.CharField(max_length=255, default='null', null=True)
     Sector = models.CharField(max_length=255, default='null', null=True, blank=True)
+
+
+    def __str__(self):
+        return "IEC_60870_5_104_Master"
+
+class IEC_60870_5_104_Master_dyn(models.Model):
     Data = models.CharField(max_length=255, default='null', null=True, blank=True)
     Command = models.CharField(max_length=255, default='null', null=True, blank=True)
     Files = models.CharField(max_length=255, default='null', null=True, blank=True)
     Endpoints = models.CharField(max_length=255, default='null', null=True, blank=True)
     Interrogation_periods = models.CharField(max_length=255, default='null', null=True, blank=True)
-
-    def __str__(self):
-        return "IEC_60870_5_104_Master"
+    iec_60870_5_104_master = models.ForeignKey(IEC_60870_5_104_Master, on_delete=models.PROTECT, null=True)
